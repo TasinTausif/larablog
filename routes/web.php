@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PostController;
 use App\Models\Category;
 use App\Models\Post;
 //use Illuminate\Support\Facades\DB;
@@ -49,28 +50,9 @@ Route::get( '/post', function () {
     ] );
 } );
 
-Route::get( '/', function () {
+Route::get( '/', [PostController::class, 'index'] )->name( 'home' );
 
-//It was used to check n+1 problem from logs.
-    /*DB::listen(function($query){
-    logger($query->sql, $query->bindings);
-    });*/
-
-    return view( 'posts', [
-        'posts'      => Post::latest()->with( 'category', 'author' )->get(),
-        'categories' => Category::all(),
-    ] );
-} );
-
-Route::get( '/posts/{post}', function ( Post $post ) {
-
-//Find a post by it's slug and pass it to a view called "post"
-    //return view( 'post', ['post' => Post::findOrFail( $id )] );
-
-    return view( 'post', [
-        'post' => $post,
-    ] );
-} );
+Route::get( '/posts/{post}', [PostController::class, 'show'] );
 
 Route::get( '/categories/{category:slug}', function ( Category $category ) {
     return view( 'posts', [
@@ -78,7 +60,7 @@ Route::get( '/categories/{category:slug}', function ( Category $category ) {
         'currentCategory' => $category,
         'categories' => Category::all(),
     ] );
-} );
+} )->name( 'category' );
 
 //By writing after : means tell the browser explplicitly to take username instead of default id
 Route::get( '/authors/{author:username}', function ( User $author ) {
