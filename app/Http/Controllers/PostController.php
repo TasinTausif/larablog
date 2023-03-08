@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
 use App\Models\Post;
 
 class PostController extends Controller {
@@ -13,11 +12,10 @@ class PostController extends Controller {
         logger($query->sql, $query->bindings);
         });*/
 
-        return view( 'posts', [
+        return view( 'posts.index', [
             //'posts'      => Post::latest()->with( 'category', 'author' )->get(),
             //'posts'      => Post::latest()->filter( request()->only('search) )->get(),//Similar appproach with exact same result
-            'posts'      => Post::latest()->filter( request( ['search'] ) )->get(),
-            'categories' => Category::all(),
+            'posts' => Post::latest()->filter( request( ['search', 'category'] ) )->get(),
         ] );
     }
 
@@ -26,7 +24,7 @@ class PostController extends Controller {
 //Find a post by it's slug and pass it to a view called "post"
         //return view( 'post', ['post' => Post::findOrFail( $id )] );
 
-        return view( 'post', [
+        return view( 'posts.show', [
             'post' => $post,
         ] );
     }
