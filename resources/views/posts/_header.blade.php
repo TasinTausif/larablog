@@ -34,6 +34,11 @@
         <!-- Search -->
         <div class="relative flex lg:inline-flex items-center bg-gray-100 rounded-xl px-3 py-2">
             <form method="GET" action="#">
+                {{-- The bellow field will hold the category when searching and will search the specific word in the hold category --}}
+                @if (request('category'))
+                    <input type="hidden" name="category" value="{{ request('category') }}">
+                @endif
+
                 <input type="text" name="search" placeholder="Find something"
                     class="bg-transparent placeholder-black font-semibold text-sm"
                     value="{{ request('search') }}">{{-- Here, value will keep the search word visible --}}

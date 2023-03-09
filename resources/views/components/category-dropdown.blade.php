@@ -12,7 +12,9 @@
     </x-dropdown-item>
 
     @foreach ($categories as $category)
-        <x-dropdown-item href="/?category={{ $category->slug }}" {{-- :active="isset($currentCategory) && $currentCategory->is($category)" --}} :active="request()->is('categories/' . $category->slug)">
+        {{-- In the link bellow,we have added a extra http func which will hold the search query without holding the current category. So that, if we search for a word at first and then select a specific category --}}
+        <x-dropdown-item href="/?category={{ $category->slug }}&{{ http_build_query(request()->except('category')) }}"
+            {{-- :active="isset($currentCategory) && $currentCategory->is($category)" --}} :active="request()->is('categories/' . $category->slug)">
             {{ ucwords($category->name) }}
         </x-dropdown-item>
     @endforeach
