@@ -1,8 +1,9 @@
 <?php
 
 use App\Http\Controllers\PostController;
-use App\Models\Post;
+use App\Http\Controllers\RegisterController;
 //use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\SessionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -70,3 +71,16 @@ return view( 'posts', [
 ] );
 } )->name( 'category' );
  */
+
+Route::middleware( 'guest' )->group( function () {
+    Route::get( 'register', [RegisterController::class, 'create'] );
+    Route::post( 'register', [RegisterController::class, 'store'] );
+} );
+
+//Similar thing like up but upper one is better approach
+/*
+Route::get( 'register', [RegisterController::class, 'create'] )->middleware( 'guest' );
+Route::post( 'register', [RegisterController::class, 'store'] )->middleware( 'guest' );
+ */
+
+Route::post( 'logout', [SessionController::class, 'destroy'] );

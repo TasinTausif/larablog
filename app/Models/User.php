@@ -16,8 +16,11 @@ class User extends Authenticatable {
      *
      * @var array<int, string>
      */
+
+    //It's safe to keep the fillable array empty and use guarded array intead to inset data easily without errors
     protected $fillable = [
         'name',
+        'username',
         'email',
         'password',
     ];
@@ -41,7 +44,19 @@ class User extends Authenticatable {
         'email_verified_at' => 'datetime',
     ];
 
-    public function posts(){
-        return $this->hasMany(Post::class);
+    public function posts() {
+        return $this->hasMany( Post::class );
     }
+
+    //Laravel Mutator
+    public function setPasswordAttribute( $password ) {
+        $this->attributes['password'] = bcrypt( $password );
+    }
+
+    //laravel Accessor
+    /*
+public function getNameAttribute($name){
+return ucwords($name)
+}
+ */
 }
