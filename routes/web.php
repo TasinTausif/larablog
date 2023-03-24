@@ -77,10 +77,8 @@ Route::middleware( 'guest' )->group( function () {
     Route::post( 'register', [RegisterController::class, 'store'] );
 } );
 
-//Similar thing like up but upper one is better approach
-/*
-Route::get( 'register', [RegisterController::class, 'create'] )->middleware( 'guest' );
-Route::post( 'register', [RegisterController::class, 'store'] )->middleware( 'guest' );
- */
+//Similar approach like up but without using the group middleware
+Route::get( 'login', [SessionController::class, 'create'] )->middleware( 'guest' );
+Route::post( 'login', [SessionController::class, 'store'] )->middleware( 'guest' );
 
-Route::post( 'logout', [SessionController::class, 'destroy'] );
+Route::post( 'logout', [SessionController::class, 'destroy'] )->middleware( 'auth' );
