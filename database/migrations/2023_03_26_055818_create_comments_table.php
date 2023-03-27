@@ -11,16 +11,18 @@ return new class extends Migration {
      * @return void
      */
     public function up() {
-        Schema::create( 'posts', function ( Blueprint $table ) {
+        Schema::create( 'comments', function ( Blueprint $table ) {
             $table->id();
-            $table->foreignId( 'category_id' );
-            $table->foreignId( 'user_id' )->constrained()->cascadeOnDelete();
-            $table->string( 'title' );
-            $table->string( 'slug' )->unique();
-            $table->text( 'excerpt' );
             $table->text( 'body' );
+
+            //Method 1 to declare a forgrin key
+            $table->foreignId( 'post_id' )->constrained()->cascadeOnDelete();
+
+            //Method 2 to declare a forgrin key
+            $table->unsignedBigInteger( 'user_id' );
+            $table->foreign( 'user_id' )->references( 'id' )->on( 'users' )->cascadeOnDelete();
+
             $table->timestamps();
-            $table->timestamp( 'published_at' )->nullable();
         } );
     }
 
@@ -30,6 +32,6 @@ return new class extends Migration {
      * @return void
      */
     public function down() {
-        Schema::dropIfExists( 'posts' );
+        Schema::dropIfExists( 'comments' );
     }
 };

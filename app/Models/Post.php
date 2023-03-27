@@ -18,15 +18,6 @@ class Post extends Model {
         return 'slug';
     }
 
-    //Creating Eloquent relationship
-    public function category() {
-        return $this->belongsTo( Category::class ); //Since their relationship is belongsto
-    }
-
-    public function author() {
-        return $this->belongsTo( User::class, 'user_id' );
-    }
-
     //Query scope to search in homepage
     public function scopeFilter( $query, array $filters ) {
 
@@ -60,6 +51,19 @@ class Post extends Model {
                 $query->where( 'username', $author )
             )
         );
+    }
+
+    //Creating Eloquent relationship
+    public function category() {
+        return $this->belongsTo( Category::class ); //Since their relationship is belongsto
+    }
+
+    public function author() {
+        return $this->belongsTo( User::class, 'user_id' );
+    }
+
+    public function comments() {
+        return $this->hasMany( Comment::class );
     }
 
 }

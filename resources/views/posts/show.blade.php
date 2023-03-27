@@ -59,6 +59,18 @@ By <a href="/authors/{{$post->author->username}}">{{$post->author->name}}</a> on
                         {!! $post->body !!}
                     </div>
                 </div>
+
+                {{-- Post Comments --}}
+                <section class="mt-10 col-span-8 col-start-5 space-y-6">
+
+                    @include('posts._add-comment-form')
+
+                    @foreach ($post->comments as $comment)
+                        <x-post-comment :comment=$comment />
+                    @endforeach
+
+                </section>
+
             </article>
         </main>
     </section>
