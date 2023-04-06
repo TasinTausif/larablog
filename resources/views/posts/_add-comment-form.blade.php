@@ -14,13 +14,11 @@
                 <textarea name="body" class="w-full text-sm focus:outline-none focus:ring" placeholder="Write Something!"
                     cols="30" rows="4" required></textarea>
 
-                @error('body')
-                    <span class="text-xs text-red-500">{{ $message }}</span>
-                @enderror
+                <x-form.error name="body" />
             </div>
 
-            <div class="flex justify-end mt-6 pt-6 border-t border-gray-200 pt-6">
-                <x-submit-button>Post</x-submit-button>
+            <div class="flex justify-end pb-6 border-t border-gray-200">
+                <x-form.button>Post</x-form.button>
             </div>
         </form>
     </x-panel>

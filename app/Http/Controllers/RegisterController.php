@@ -14,7 +14,7 @@ class RegisterController extends Controller {
             'name'     => 'required|max:255',
             'username' => 'required|min:5|max:255|unique:users,username', //Unique will validate that, only the unique values are taken
             'email' => 'required|email|max:255|unique:users,email',
-            'password' => 'required|min:7|max:255',
+            'password' => 'required|min:5|max:255',
         ] );
 
         //dd( 'Success validation succeed' );
