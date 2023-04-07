@@ -76,10 +76,8 @@ return view( 'posts', [
 } )->name( 'category' );
  */
 
-Route::middleware( 'guest' )->group( function () {
-    Route::get( 'register', [RegisterController::class, 'create'] );
-    Route::post( 'register', [RegisterController::class, 'store'] );
-} );
+Route::get( 'register', [RegisterController::class, 'create'] )->middleware( 'guest' );
+Route::post( 'register', [RegisterController::class, 'store'] )->middleware( 'guest' );
 
 //Similar approach like up but without using the group middleware
 Route::get( 'login', [SessionController::class, 'create'] )->middleware( 'guest' );
@@ -91,9 +89,18 @@ Route::post( 'logout', [SessionController::class, 'destroy'] )->middleware( 'aut
 Route::post( 'newsletter', NewsletterController::class );
 
 //Admin routes
-Route::post( 'admin/posts', [AdminPostController::class, 'store'] )->middleware( 'admin' );
-Route::get( 'admin/posts', [AdminPostController::class, 'index'] )->middleware( 'admin' );
-Route::get( 'admin/posts/create', [AdminPostController::class, 'create'] )->middleware( 'admin' );
-Route::get( 'admin/posts/{post:id}/edit', [AdminPostController::class, 'edit'] )->middleware( 'admin' );
-Route::patch( 'admin/posts/{post:id}', [AdminPostController::class, 'update'] )->middleware( 'admin' );
-Route::delete( 'admin/posts/{post:id}', [AdminPostController::class, 'destroy'] )->middleware( 'admin' );
+//As here's 6 routes using the same middleware, it's ideal to use group
+Route::middleware( 'admin' )->group( function () {
+    Route::get( 'admin/posts', [AdminPostController::class, 'index'] );
+    Route::post( 'admin/posts', [AdminPostController::class, 'store'] );
+    Route::get( 'admin/posts/create', [AdminPostController::class, 'create'] );
+    Route::get( 'admin/posts/{post:id}/edit', [AdminPostController::class, 'edit'] );
+    Route::patch( 'admin/posts/{post:id}', [AdminPostController::class, 'update'] );
+    Route::delete( 'admin/posts/{post:id}', [AdminPostController::class, 'destroy'] );
+} );
+
+//We can use these shortand as well and this will give the exact same result
+
+//Route::resource('admin/posts', AdminPostController::class)->except('show');
+
+//Since we used gate, we can simply use middleware(can:admin) instead of middleware(admin)

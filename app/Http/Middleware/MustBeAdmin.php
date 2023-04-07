@@ -1,5 +1,7 @@
 <?php
 
+// Since we have used gae, there's no longer a need to use this middleware
+
 namespace App\Http\Middleware;
 
 use Closure;

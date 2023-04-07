@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 
+//use Illuminate\Support\Facades\Gate
+
 class PostController extends Controller {
     public function index() {
 
@@ -11,6 +13,9 @@ class PostController extends Controller {
         /*DB::listen(function($query){
         logger($query->sql, $query->bindings);
         });*/
+
+        //Gate::allows(), request()->auth()->can(), request()->auth()->cannot() -> all these methods returns boolean and if can't pass, stays in the same page
+        //$this->authorize() -> it checks the complete authorization and if fails, returns a 403 error
 
         return view( 'posts.index', [
 
